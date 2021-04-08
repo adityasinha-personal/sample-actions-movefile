@@ -19,8 +19,11 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
+      - name: Setup git user
+        run: |
+            git config --global user.name "$(git --no-pager log --format=format:'%an' -n 1)"
+            git config --global user.email "$(git --no-pager log --format=format:'%ae' -n 1)"
       # Runs a single command using the runners shell
-      - name: Run a one-line script
+      - name: Move file by script
         run: ./deployments/move-file.sh ${{ github.actor }} ${{ github.event.repository.name }} ${{ secrets.GITHUB_TOKEN }}
 
