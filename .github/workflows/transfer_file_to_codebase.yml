@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Sample create PR and merge file 
+name: Copy file to another location and push changes
 
 # Controls when the action will run. 
 on:
@@ -23,7 +23,12 @@ jobs:
         run: |
             git config --global user.name "$(git --no-pager log --format=format:'%an' -n 1)"
             git config --global user.email "$(git --no-pager log --format=format:'%ae' -n 1)"
-      # Runs a single command using the runners shell
+      # Create the commit for file movement
       - name: Move file by script
-        run: ./deployments/move-file.sh ${{ github.actor }} ${{ github.event.repository.name }} ${{ secrets.GITHUB_TOKEN }}
-
+        run: ./deployments/move-file.sh 
+      # Push the changes
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            branch: ${{ github.ref }}
