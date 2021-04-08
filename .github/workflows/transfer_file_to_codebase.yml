@@ -19,16 +19,23 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - name: Setup git user
-        run: |
-            git config --local user.email "github-actions[bot]@users.noreply.github.com"
-            git config --local user.name "github-actions[bot]"
+      
       # Create the commit for file movement
-      - name: Move file by script
+      - name: Copy file by script
         run: ./deployments/move-file.sh 
-      # Push the changes
-      - name: Push changes
-        uses: ad-m/github-push-action@master
+
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v3
         with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
-            branch: "main"
+          commit-message: Update version file sample
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          branch: sendfiles
+          delete-branch: true
+          title: 'Update file'
+
+      - name: Check outputs
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
