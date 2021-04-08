@@ -34,6 +34,7 @@ jobs:
           branch: sendfiles
           delete-branch: true
           title: 'Update file'
+          base: main
 
       - name: Check outputs
         run: |
