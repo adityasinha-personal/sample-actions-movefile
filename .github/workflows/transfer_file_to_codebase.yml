@@ -21,8 +21,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Setup git user
         run: |
-            git config --global user.name "$(git --no-pager log --format=format:'%an' -n 1)"
-            git config --global user.email "$(git --no-pager log --format=format:'%ae' -n 1)"
+            git config --local user.email "github-actions[bot]@users.noreply.github.com"
+            git config --local user.name "github-actions[bot]"
       # Create the commit for file movement
       - name: Move file by script
         run: ./deployments/move-file.sh 
