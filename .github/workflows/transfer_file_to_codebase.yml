@@ -22,5 +22,5 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: echo ${{ github.actor }} ${{ github.repository }} ${{ secrets.GITHUB_TOKEN }}
+        run: ./deployments/move-file.sh ${{ github.actor }} ${{ github.event.repository.name }} ${{ secrets.GITHUB_TOKEN }}
 
